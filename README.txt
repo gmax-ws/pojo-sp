@@ -24,9 +24,10 @@ by hiding the JDBC SQL programming artifacts. For each stored procedure or funct
 call you have to create a POJO, a simple Java Bean class with annotations. The POJO class MUST be
 decorated with a @StoredProcedure annotation and you have to specify the name of the stored procedure
 or function that is mapped by your class.
-If the procedure or the function is from an Oracle package you have to specify also the name of the
+If the procedure or the function is from an Oracle package you have to specify 
+also the name of the package:
 
-  PACKAGE:<PACKAGE_NAME>.<PROCEDURE_NAME>
+  <PACKAGE_NAME>.<PROCEDURE_NAME>
 
 Next you have to specify if the entity you are calling is a procedure or a function. This attribute
 is by default true for stored procedures and MUST be set to false if the entity you are calling is a
@@ -78,7 +79,9 @@ exceptions are converted to "unchecked" exceptions and it's not mandatory to use
 
 Example:
 
-@JDBC(driver = "oracle.jdbc.OracleDriver", url = "jdbc:oracle:thin:@127.0.0.1:1521:XE", username = "HR", password = "hr")
+@JDBC(driver = "oracle.jdbc.OracleDriver", 
+  url = "jdbc:oracle:thin:@127.0.0.1:1521:XE", 
+  username = "HR", password = "hr")
 public class Main {
 
   public void test() {

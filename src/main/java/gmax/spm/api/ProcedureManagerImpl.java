@@ -38,7 +38,7 @@ import java.util.HashMap;
  * ProcedureManager and TransactionManager API.
  * 
  * @author Marius Gligor
- * @version 3.0
+ * @version 3.1
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 

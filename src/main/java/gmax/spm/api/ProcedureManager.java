@@ -26,12 +26,12 @@ import java.sql.Connection;
  * ProcedureManager API.
  *
  * @author Marius Gligor
- * @version 3.0
+ * @version 3.1
  */
 public interface ProcedureManager {
 
 	/** Library version */
-    static final String VERSION = "3.0";
+    static final String VERSION = "3.1";
 
     /**
      * Close the procedure manager.

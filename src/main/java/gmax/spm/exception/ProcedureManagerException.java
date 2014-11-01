@@ -24,7 +24,7 @@ package gmax.spm.exception;
  * ProcedureManagerException wrap all "checked" exceptions to an "unchecked" exception.
  *
  * @author Marius Gligor
- * @version 3.0
+ * @version 3.1
  */
 public class ProcedureManagerException extends RuntimeException {
 

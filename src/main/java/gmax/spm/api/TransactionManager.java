@@ -24,7 +24,7 @@ package gmax.spm.api;
  * TransactionManager API
  *
  * @author Marius Gligor
- * @version 3.0
+ * @version 3.1
  */
 public interface TransactionManager {
 

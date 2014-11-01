@@ -32,7 +32,7 @@ import java.sql.SQLException;
  * Factory class to create ProcedureManager instances.
  *
  * @author Marius Gligor
- * @version 3.0
+ * @version 3.1
  */
 public final class ProcedureManagerFactory {
 

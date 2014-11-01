@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * JDBC annotation. Contains JDBC connection parameters.
  * 
  * @author Marius Gligor
- * @version 3.0
+ * @version 3.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

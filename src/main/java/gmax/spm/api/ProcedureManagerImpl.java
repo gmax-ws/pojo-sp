@@ -43,7 +43,7 @@ import java.util.HashMap;
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
 	/** Fields cache */
-	private Map<Class<?>, List<Field>> cache = new HashMap<>();
+	private final Map<Class<?>, List<Field>> cache = new HashMap<>();
 
 	/** The JDBC Connection object */
 	private Connection connection;
@@ -129,13 +129,11 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 		
 		List<Field> fields = cache.get(type);
 		
-		if (fields == null) {
-			
-			fields = new LinkedList<Field>();
+		if (fields == null) {		
+			fields = new LinkedList<>();
 			cache.put(type, fields);
 			
-			Field[] declaredFields = type.getDeclaredFields();
-			for (Field field : declaredFields) {
+			for (Field field : type.getDeclaredFields()) {
 				if (field.isAnnotationPresent(StoredProcedureParameter.class)) {
 					fields.add(field);
 				}

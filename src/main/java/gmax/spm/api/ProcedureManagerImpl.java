@@ -45,6 +45,9 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 	/** Fields cache */
 	private Map<Class<?>, List<Field>> cache = new HashMap<>();
 
+	/** SQL statement cache */
+	private Map<StoredProcedure, String> sqlCache = new HashMap<>();
+
 	/** The JDBC Connection object */
 	private Connection connection;
 
@@ -157,6 +160,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 	 */
 	private String callStatementString(StoredProcedure procedure,
 			int parametersCount) {
+		
+		String statement = sqlCache.get(procedure);
+		if (statement != null)
+			return statement;
 		
 		StringBuilder buffer = new StringBuilder("{");
 		

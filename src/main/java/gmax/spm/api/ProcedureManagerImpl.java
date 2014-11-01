@@ -344,18 +344,18 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 		}
 		try {
 			switch (operation) {
-			case START:
-				connection.setAutoCommit(false);
-				break;
-			case COMMIT:
-				connection.commit();
-				break;
-			case ROLLBACK:
-				connection.rollback();
-				break;
-			default:
-				connection.setAutoCommit(true);
-				break;
+                case START:
+                    connection.setAutoCommit(false);
+                    break;
+                case COMMIT:
+                    connection.commit();
+                    break;
+                case ROLLBACK:
+                    connection.rollback();
+                    break;
+                default:
+                    connection.setAutoCommit(true);
+                    break;
 			}
 		} catch (SQLException e) {
 			throw new ProcedureManagerException(e);

@@ -41,23 +41,23 @@ import java.sql.Types;
 public @interface StoredProcedureParameter {
 
   /**
-   * The stored procedure parameter index
+   * The stored procedure parameter index.
    * 
-   * @return int parameter index
+   * @return 	parameter index.
    */
   int index();
 
   /**
-   * The stored procedure parameter SQL type
+   * The stored procedure parameter SQL type.
    * 
-   * @return int SQL type mapping for this stored procedure parameter
+   * @return	SQL type mapping for this stored procedure parameter.
    */
   int type() default Types.VARCHAR;
 
   /**
-   * The stored procedure parameter direction attribute IN, OUT, INOUT
+   * The stored procedure parameter direction attribute IN, OUT, INOUT.
    * 
-   * @return Direction attribute of the stored procedure parameter
+   * @return 	Direction attribute of the stored procedure parameter.
    */
   Direction direction() default Direction.IN;
 }

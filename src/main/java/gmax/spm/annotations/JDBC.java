@@ -38,30 +38,30 @@ import java.lang.annotation.Target;
 public @interface JDBC {
 
   /**
-   * JDBC Driver
+   * JDBC Driver.
    * 
-   * @return String JDBC driver class
+   * @return	JDBC driver class.
    */
   String driver();
 
   /**
-   * URL connection
+   * URL connection.
    * 
-   * @return String URL connection
+   * @return 	URL connection.
    */
   String url();
 
   /**
-   * User name
+   * User name.
    * 
-   * @return String username
+   * @return	username.
    */
   String username() default "";
 
   /**
-   * Password
+   * Password.
    * 
-   * @return String password
+   * @return	password.
    */
   String password() default "";
 }

@@ -21,8 +21,8 @@
 package gmax.spm.exception;
 
 /**
- * ProcedureManagerException used to wrap all "checked" exceptions
- * to an "unchecked" exception.
+ * ProcedureManagerException used to wrap all "checked" exceptions to an 
+ * "unchecked" exception.
  *
  * @author Marius Gligor
  * @version 3.0
@@ -30,23 +30,25 @@ package gmax.spm.exception;
 public class ProcedureManagerException extends RuntimeException {
 
     /**
-     *
+     * Serialization id.
      */
     private static final long serialVersionUID = 7746720446568325686L;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param message the text message
+     * @param 	message 
+     * 			Exception text message.
      */
     public ProcedureManagerException(String message) {
         super(message);
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param throwable a Throwable object
+     * @param 	throwable 
+     * 			Throwable object.
      */
     public ProcedureManagerException(Throwable throwable) {
         super(throwable);

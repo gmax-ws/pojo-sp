@@ -29,15 +29,15 @@ package gmax.spm.annotations.enums;
 public enum Direction {
 
     /**
-     * Input parameter
+     * Input parameter.
      */
     IN,
     /**
-     * Output parameter
+     * Output parameter.
      */
     OUT,
     /**
-     * Input Output parameter
+     * Input Output parameter.
      */
     INOUT
 }

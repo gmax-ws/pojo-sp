@@ -30,39 +30,42 @@ import java.sql.Connection;
  */
 public interface ProcedureManager {
 
+	/** Library version */
     static final String VERSION = "3.0";
 
     /**
-     * Close the procedure manager
+     * Close the procedure manager.
      */
     void close();
 
     /**
      * Return JDBC Connection object.
      *
-     * @return JDBC Connection
+     * @return 	JDBC Connection.
      */
     Connection getConnection();
 
     /**
      * Return Transaction Manager object of this JDBC Connection.
      *
-     * @return TransactionManager object
+     * @return 	TransactionManager object.
      */
     TransactionManager getTransactionManager();
 
     /**
      * Call a stored procedure or a function
      *
-     * @param pojo the entity instance
+     * @param 	pojo 
+     * 			Entity instance.
      */
     void call(Object pojo);
 
     /**
-     * Call a stored procedure or a function using the given connection
-     *
-     * @param connection a database connection object
-     * @param pojo       the entity instance
+     * Call a stored procedure or a function using the given connection.
+     * @param 	connection 
+     * 			Database connection object.
+     * @param 	pojo
+     * 			Entity instance.
      */
     void call(Connection connection, Object pojo);
 }

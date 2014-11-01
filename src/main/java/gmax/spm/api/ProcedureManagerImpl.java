@@ -33,7 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * ProcedureManager and TransactionManager API
+ * ProcedureManager and TransactionManager API.
  *
  * @author Marius Gligor
  * @version 3.0
@@ -44,24 +44,25 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     private Connection connection;
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public ProcedureManagerImpl() {
     }
 
     /**
-     * Construct a ProcedureManager instance using a JDBC Connection
+     * Construct a ProcedureManager instance using a JDBC Connection.
      *
-     * @param connection The JDBC Connection object
+     * @param 	connection
+     * 			JDBC Connection object.
      */
     public ProcedureManagerImpl(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Get connection
+     * Get connection.
      *
-     * @return The JDBC Connection object
+     * @return 	JDBC Connection object.
      */
     @Override
     public Connection getConnection() {
@@ -69,7 +70,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Close connection
+     * Close connection.
      */
     @Override
     public void close() {
@@ -83,9 +84,9 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Get TransactionManager API
+     * Get TransactionManager API.
      *
-     * @return TransactionManager interface
+     * @return 	TransactionManager interface.
      */
     @Override
     public TransactionManager getTransactionManager() {
@@ -93,10 +94,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Get procedure name from @StoredProcedure annotation
+     * Get procedure name from @StoredProcedure annotation.
      *
-     * @param type pojo Class
-     * @return StoredProcedure annotation
+     * @param 	type 
+     * 			pojo Class.
+     * 
+     * @return 	StoredProcedure annotation.
      */
     private StoredProcedure getProcedureName(Class<? extends Object> type) {
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
@@ -106,10 +109,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Get a <code>List</code> of @StoredProcedureParameter annotated fields
+     * Get a <code>List</code> of @StoredProcedureParameter annotated fields.
      *
-     * @param type Class type
-     * @return a list of StoredProcedureParameter annotated fields
+     * @param 	type 
+     * 			pojo Class.
+     * 
+     * @return 	List of StoredProcedureParameter annotated fields
      */
     private List<Field> getProcedureParameters(Class<? extends Object> type) {
         List<Field> fields = new LinkedList<Field>();
@@ -125,9 +130,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Build a SQL-92 call statement for a stored procedure or function.
      *
-     * @param procedure       StoredProcedure metadata
-     * @param parametersCount number of parameters
-     * @return String the generated call statement.
+     * @param 	procedure       
+     * 			StoredProcedure metadata.
+     * @param 	parametersCount 
+     * 			Number of parameters.
+     * 
+     * @return 	Generated call statement as string.
      */
     private String callStatementString(StoredProcedure procedure, int parametersCount) {
         StringBuilder buffer = new StringBuilder("{");
@@ -143,13 +151,17 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Register the input/output parameters before the call
+     * Register the input/output parameters before the call.
      *
-     * @param statement a CallableStatement object
-     * @param pojo      stored procedure entity
-     * @param fields    list of fields
-     * @throws SQLException
-     * @throws IllegalAccessException
+     * @param 	statement
+     * 			CallableStatement object.
+     * @param 	pojo
+     * 		    Stored procedure entity.
+     * @param 	fields    
+     * 			List of fields.
+     * 
+     * @throws 	SQLException
+     * @throws 	IllegalAccessException
      */
     private void setParameters(CallableStatement statement, Object pojo, List<Field> fields) throws SQLException,
             IllegalAccessException {
@@ -177,11 +189,15 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the output parameters after call.
      *
-     * @param statement a CallableStatement object
-     * @param pojo      stored procedure entity
-     * @param fields    list of fields
-     * @throws IllegalAccessException
-     * @throws SQLException
+     * @param 	statement
+     * 			CallableStatement object.
+     * @param 	pojo      
+     * 			Stored procedure entity.
+     * @param 	fields
+     * 			List of fields.
+     * 
+     * @throws 	IllegalAccessException
+     * @throws 	SQLException
      */
     private void getParameters(CallableStatement statement, Object pojo, List<Field> fields)
             throws IllegalAccessException, SQLException {
@@ -200,9 +216,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Call the function or stored procedure
+     * Call the function or stored procedure.
      *
-     * @param pojo the entity object.
+     * @param 	pojo 
+     * 			Entity object.
      */
     @Override
     public void call(Connection connection, Object pojo) {
@@ -211,9 +228,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Call the function or stored procedure
+     * Call the function or stored procedure.
      *
-     * @param pojo Object the POJO class.
+     * @param 	pojo 
+     * 			POJO entity.
      */
     @Override
     public void call(Object pojo) {
@@ -241,9 +259,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Close statement
+     * Close statement.
      *
-     * @param statement CallableStatement object
+     * @param 	statement 
+     * 			CallableStatement object.
      */
     private void cleanUp(CallableStatement statement) {
         if (statement != null) {
@@ -256,7 +275,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Start a new JDBC transaction
+     * Start a new JDBC transaction.
      */
     @Override
     public void begin() {
@@ -280,7 +299,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Stop a JDBC transaction
+     * Stop a JDBC transaction.
      */
     @Override
     public void end() {
@@ -288,9 +307,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Process transaction
+     * Process transaction.
      *
-     * @param operation Transaction operation
+     * @param 	operation 
+     * 			Transaction operation.
      */
     private void processTransaction(TransactionOperation operation) {
         if (connection == null) {

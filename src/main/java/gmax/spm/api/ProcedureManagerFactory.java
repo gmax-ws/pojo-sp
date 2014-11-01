@@ -37,25 +37,27 @@ import java.sql.SQLException;
 public final class ProcedureManagerFactory {
 
     /**
-     * Constructor
+     * Hide constructor. 
      */
     private ProcedureManagerFactory() {
     }
 
     /**
-     * Create a new instance of ProcedureManager
+     * Create a new instance of ProcedureManager.
      *
-     * @return ProcedureManager instance
+     * @return 	ProcedureManager instance.
      */
     public static ProcedureManager createInstance() {
         return new ProcedureManagerImpl();
     }
 
     /**
-     * Create a new instance of ProcedureManager
+     * Create a new instance of ProcedureManager.
      *
-     * @param source a DataSource object
-     * @return ProcedureManager instance
+     * @param 	source 
+     * 			DataSource object.
+     * 
+     * @return 	ProcedureManager instance.
      */
     public static ProcedureManager createInstance(DataSource source) {
         try {
@@ -67,20 +69,24 @@ public final class ProcedureManagerFactory {
     }
 
     /**
-     * Create a new instance of ProcedureManager from a JDBC connection
+     * Create a new instance of ProcedureManager from a JDBC connection.
      *
-     * @param connection a JDBC connection
-     * @return ProcedureManager instance
+     * @param 	connection
+     * 			JDBC connection.
+     * 
+     * @return 	ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Connection connection) {
         return new ProcedureManagerImpl(connection);
     }
 
     /**
-     * Create a new instance of ProcedureManager from a @JDBC annotated class
+     * Create a new instance of ProcedureManager from a @JDBC annotated class.
      *
-     * @param jdbcClass The @JDBC annotated class
-     * @return ProcedureManager instance
+     * @param 	jdbcClass 
+     * 			@JDBC annotated class.
+     * 
+     * @return 	ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
         if (!jdbcClass.isAnnotationPresent(JDBC.class)) {

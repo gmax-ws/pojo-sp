@@ -38,16 +38,16 @@ import java.lang.annotation.Target;
 public @interface StoredProcedure {
 
   /**
-   * Name of the stored procedure or function
+   * Name of the stored procedure or function.
    * 
-   * @return String procedure name
+   * @return 	procedure name.
    */
   String name();
 
   /**
-   * Procedure or Function attribute
+   * Procedure or Function attribute.
    * 
-   * @return true - procedure (default) false - function
+   * @return 	true - procedure (default) false - function.
    */
   boolean procedure() default true;
 }

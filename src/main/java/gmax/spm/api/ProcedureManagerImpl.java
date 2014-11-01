@@ -1,6 +1,6 @@
 /**
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2013 Gmax
+ * Copyright (c) 2011-2014 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -40,7 +40,7 @@ import java.util.List;
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
-    /* The JDBC Connection object */
+    /** The JDBC Connection object */
     private Connection connection;
 
     /**

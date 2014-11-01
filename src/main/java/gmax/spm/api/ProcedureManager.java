@@ -1,6 +1,6 @@
 /**
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2013 Gmax
+ * Copyright (c) 2011-2014 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -62,6 +62,7 @@ public interface ProcedureManager {
 
     /**
      * Call a stored procedure or a function using the given connection.
+     * 
      * @param 	connection 
      * 			Database connection object.
      * @param 	pojo

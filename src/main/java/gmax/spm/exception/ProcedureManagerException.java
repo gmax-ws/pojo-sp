@@ -1,6 +1,6 @@
 /**
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2013 Gmax
+ * Copyright (c) 2011-2014 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -21,8 +21,7 @@
 package gmax.spm.exception;
 
 /**
- * ProcedureManagerException used to wrap all "checked" exceptions to an 
- * "unchecked" exception.
+ * ProcedureManagerException wrap all "checked" exceptions to an "unchecked" exception.
  *
  * @author Marius Gligor
  * @version 3.0

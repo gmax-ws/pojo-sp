@@ -1,6 +1,6 @@
 /**
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2013 Gmax
+ * Copyright (c) 2011-2014 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -40,14 +40,14 @@ public @interface StoredProcedure {
   /**
    * Name of the stored procedure or function.
    * 
-   * @return 	procedure name.
+   * @return 	Procedure name.
    */
   String name();
 
   /**
    * Procedure or Function attribute.
    * 
-   * @return 	true - procedure (default) false - function.
+   * @return 	<code>true</code> - procedure (default) <code>false</code> - function.
    */
   boolean procedure() default true;
 }

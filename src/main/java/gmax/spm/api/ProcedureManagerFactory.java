@@ -37,7 +37,7 @@ import java.sql.SQLException;
 public final class ProcedureManagerFactory {
 
     /**
-     * Hide constructor. 
+     * Hidden constructor. 
      */
     private ProcedureManagerFactory() {
     }
@@ -61,8 +61,7 @@ public final class ProcedureManagerFactory {
      */
     public static ProcedureManager createInstance(DataSource source) {
         try {
-            Connection connection = source.getConnection();
-            return new ProcedureManagerImpl(connection);
+            return new ProcedureManagerImpl(source.getConnection());
         } catch (SQLException e) {
             throw new ProcedureManagerException(e);
         }
@@ -89,18 +88,21 @@ public final class ProcedureManagerFactory {
      * @return 	ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
+        
         if (!jdbcClass.isAnnotationPresent(JDBC.class)) {
             throw new ProcedureManagerException("@JDBC annotation is missing.");
         }
+        
         JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);
+        
         try {
             Class.forName(jdbc.driver());
+            
             Connection connection = DriverManager.getConnection(jdbc.url(),
                     jdbc.username(), jdbc.password());
+            
             return new ProcedureManagerImpl(connection);
-        } catch (ClassNotFoundException e) {
-            throw new ProcedureManagerException(e);
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new ProcedureManagerException(e);
         }
     }

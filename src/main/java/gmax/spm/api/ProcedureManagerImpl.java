@@ -42,8 +42,8 @@ import java.util.HashMap;
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
-	/** Fields cache */
-	private final Map<Class<?>, List<Field>> cache = new HashMap<>();
+	/** Entity resolver */
+	private final EntityResolver resolver = new EntityResolver();
 
 	/** The JDBC Connection object */
 	private Connection connection;
@@ -100,78 +100,6 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 	}
 
 	/**
-	 * Get procedure name from @StoredProcedure annotation.
-	 * 
-	 * @param 	type
-	 * 			pojo Class.
-	 * 
-	 * @return 	StoredProcedure annotation.
-	 */
-	private StoredProcedure getProcedureName(Class<? extends Object> type) {
-
-		if (!type.isAnnotationPresent(StoredProcedure.class)) {
-			throw new ProcedureManagerException(
-					"@StoredProcedure annotation is missing.");
-		}
-		
-		return type.getAnnotation(StoredProcedure.class);
-	}
-
-	/**
-	 * Get a <code>List</code> of @StoredProcedureParameter annotated fields.
-	 * 
-	 * @param 	type
-	 *          pojo Class.
-	 * 
-	 * @return List of StoredProcedureParameter annotated fields
-	 */
-	private List<Field> getProcedureParameters(Class<? extends Object> type) {
-		
-		List<Field> fields = cache.get(type);
-		
-		if (fields == null) {		
-			fields = new LinkedList<>();
-			cache.put(type, fields);
-			
-			for (Field field : type.getDeclaredFields()) {
-				if (field.isAnnotationPresent(StoredProcedureParameter.class)) {
-					fields.add(field);
-				}
-			}
-		}
-		
-		return fields;
-	}
-
-	/**
-	 * Build a SQL-92 call statement for a stored procedure or function.
-	 * 
-	 * @param 	procedure
-	 *        	StoredProcedure metadata.
-	 * @param 	parametersCount
-	 * 			Number of parameters.
-	 * 
-	 * @return 	Generated call statement as string.
-	 */
-	private String callStatementString(StoredProcedure procedure,
-			int parametersCount) {
-		
-		StringBuilder buffer = new StringBuilder("{");
-		
-		if (!procedure.procedure()) {
-			buffer.append("? = ");
-			parametersCount--;
-		}
-		
-		buffer.append("call ").append(procedure.name()).append("(");
-		for (int i = 0; i < parametersCount; i++) {
-			buffer.append(i == 0 ? "?" : " ,?");
-		}
-		
-		return buffer.append(")}").toString();
-	}
-
-	/**
 	 * Register the input/output parameters before the call.
 	 * 
 	 * @param 	statement
@@ -184,7 +112,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 	 * @throws 	SQLException
 	 * @throws 	IllegalAccessException
 	 */
-	private void setParameters(CallableStatement statement, Object pojo,
+	private void bindInputParameters(CallableStatement statement, Object pojo,
 			List<Field> fields) throws SQLException, IllegalAccessException {
 		
 		for (Field field : fields) {
@@ -223,7 +151,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 	 * @throws 	IllegalAccessException
 	 * @throws 	SQLException
 	 */
-	private void getParameters(CallableStatement statement, Object pojo,
+	private void bindOutputParameters(CallableStatement statement, Object pojo,
 			List<Field> fields) throws IllegalAccessException, SQLException {
 		
 		for (Field field : fields) {
@@ -262,19 +190,16 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 	@Override	
 	public void call(Object pojo) {
 		if (pojo != null) {
-			// get name and parameters
-			Class<? extends Object> type = pojo.getClass();
-			StoredProcedure procedure = getProcedureName(type);
-			List<Field> fields = getProcedureParameters(type);
-		
+            // resolve entity
+            EntityResolver.Entity entity = resolver.resolve(pojo);
+            
 			// call procedure
 			CallableStatement statement = null;
 			try {
-				String sql = callStatementString(procedure, fields.size());
-				statement = connection.prepareCall(sql);
-				setParameters(statement, pojo, fields);
+				statement = connection.prepareCall(entity.sql);
+				bindInputParameters(statement, pojo, entity.fields);
 				statement.execute();
-				getParameters(statement, pojo, fields);
+				bindOutputParameters(statement, pojo, entity.fields);
 			} catch (SQLException | IllegalAccessException e) {
 				throw new ProcedureManagerException(e);
 			} finally {

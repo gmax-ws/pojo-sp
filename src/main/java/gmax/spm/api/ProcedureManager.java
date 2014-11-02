@@ -59,6 +59,9 @@ public interface ProcedureManager {
      *
      * @param   pojo 
      *          Entity instance.
+     * 
+     * @return  <code>true</code> success.
+     *          <code>false</code> error.
      */
     boolean call(Object pojo);
 
@@ -69,6 +72,9 @@ public interface ProcedureManager {
      *          Database connection object.
      * @param   pojo
      *          Entity instance.
+     * 
+     * @return  <code>true</code> success.
+     *          <code>false</code> error.
      */
     boolean call(Connection connection, Object pojo);
 }

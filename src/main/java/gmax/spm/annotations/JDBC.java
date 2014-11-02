@@ -28,40 +28,40 @@ import java.lang.annotation.Target;
 
 /**
  * JDBC annotation. Contains JDBC connection parameters.
- * 
+ *
  * @author Marius Gligor
  * @version 3.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = { ElementType.TYPE })
+@Target(value = {ElementType.TYPE})
 public @interface JDBC {
 
-  /**
-   * JDBC Driver.
-   * 
-   * @return	JDBC driver class.
-   */
-  String driver();
+    /**
+     * JDBC Driver.
+     *
+     * @return	JDBC driver class.
+     */
+    String driver();
 
-  /**
-   * URL connection.
-   * 
-   * @return 	URL connection.
-   */
-  String url();
+    /**
+     * URL connection.
+     *
+     * @return URL connection.
+     */
+    String url();
 
-  /**
-   * User name.
-   * 
-   * @return	username.
-   */
-  String username() default "";
+    /**
+     * User name.
+     *
+     * @return	username.
+     */
+    String username() default "";
 
-  /**
-   * Password.
-   * 
-   * @return	password.
-   */
-  String password() default "";
+    /**
+     * Password.
+     *
+     * @return	password.
+     */
+    String password() default "";
 }

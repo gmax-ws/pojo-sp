@@ -1,6 +1,5 @@
 /**
- * POJO Stored Procedure Entity Manager 
- * Copyright (c) 2011-2014 Gmax
+ * POJO Stored Procedure Entity Manager Copyright (c) 2011-2014 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -37,7 +36,7 @@ import java.sql.SQLException;
 public final class ProcedureManagerFactory {
 
     /**
-     * Hidden constructor. 
+     * Hidden constructor.
      */
     private ProcedureManagerFactory() {
     }
@@ -45,7 +44,7 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager.
      *
-     * @return 	ProcedureManager instance.
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance() {
         return new ProcedureManagerImpl();
@@ -54,10 +53,9 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager.
      *
-     * @param 	source 
-     * 			DataSource object.
-     * 
-     * @return 	ProcedureManager instance.
+     * @param source DataSource object.
+     *
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(DataSource source) {
         try {
@@ -70,10 +68,9 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager from a JDBC connection.
      *
-     * @param 	connection
-     * 			JDBC connection.
-     * 
-     * @return 	ProcedureManager instance.
+     * @param connection JDBC connection.
+     *
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Connection connection) {
         return new ProcedureManagerImpl(connection);
@@ -82,25 +79,25 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager from a @JDBC annotated class.
      *
-     * @param 	jdbcClass 
-     * 			@JDBC annotated class.
-     * 
-     * @return 	ProcedureManager instance.
+     * @param jdbcClass
+     * @JDBC annotated class.
+     *
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
-        
+
         if (!jdbcClass.isAnnotationPresent(JDBC.class)) {
             throw new ProcedureManagerException("@JDBC annotation is missing.");
         }
-        
+
         JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);
-        
+
         try {
             Class.forName(jdbc.driver());
-            
+
             Connection connection = DriverManager.getConnection(jdbc.url(),
                     jdbc.username(), jdbc.password());
-            
+
             return new ProcedureManagerImpl(connection);
         } catch (ClassNotFoundException | SQLException e) {
             throw new ProcedureManagerException(e);

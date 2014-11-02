@@ -201,8 +201,9 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
      * @param   pojo
      *          Entity object.
      * 
-     * @return  <code>true</code> success.
-     *          <code>false</code> error.
+     * @return  <code>true</code> if the first result is a <code>ResultSet</code>
+     *          object; <code>false</code> if the first result is an update
+     *          count or there is no result
      */
     @Override
     public boolean call(Connection connection, Object pojo) {
@@ -216,8 +217,9 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
      * @param   pojo
      *          POJO entity.
      * 
-     * @return  <code>true</code> success.
-     *          <code>false</code> error.
+     * @return  <code>true</code> if the first result is a <code>ResultSet</code>
+     *          object; <code>false</code> if the first result is an update
+     *          count or there is no result
      */
     @Override
     public boolean call(Object pojo) {

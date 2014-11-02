@@ -40,15 +40,15 @@ public @interface StoredProcedure {
     /**
      * Name of the stored procedure or function.
      *
-     * @return Procedure name.
+     * @return  Procedure name.
      */
     String name();
 
     /**
      * Procedure or Function attribute.
      *
-     * @return 	<code>true</code> - procedure (default) <code>false</code> -
-     * function.
+     * @return  <code>true</code> - procedure (default) 
+     *          <code>false</code> - function.
      */
     boolean procedure() default true;
 }

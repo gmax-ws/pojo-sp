@@ -45,7 +45,7 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager.
      *
-     * @return ProcedureManager instance.
+     * @return  ProcedureManager instance.
      */
     public static ProcedureManager createInstance() {
         return new ProcedureManagerImpl();
@@ -54,9 +54,10 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager.
      *
-     * @param source DataSource object.
+     * @param   source 
+     *          DataSource object.
      *
-     * @return ProcedureManager instance.
+     * @return  ProcedureManager instance.
      */
     public static ProcedureManager createInstance(DataSource source) {
         try {
@@ -69,9 +70,10 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager from a JDBC connection.
      *
-     * @param connection JDBC connection.
+     * @param   connection
+     *          JDBC connection.
      *
-     * @return ProcedureManager instance.
+     * @return  ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Connection connection) {
         return new ProcedureManagerImpl(connection);
@@ -80,10 +82,10 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager from a @JDBC annotated class.
      *
-     * @param jdbcClass
-     * @JDBC annotated class.
+     * @param   jdbcClass
+     *          @JDBC annotated class.
      *
-     * @return ProcedureManager instance.
+     * @return  ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
 

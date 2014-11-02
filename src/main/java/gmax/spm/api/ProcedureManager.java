@@ -43,29 +43,32 @@ public interface ProcedureManager {
     /**
      * Return JDBC Connection object.
      *
-     * @return JDBC Connection.
+     * @return  JDBC Connection.
      */
     Connection getConnection();
 
     /**
      * Return Transaction Manager object of this JDBC Connection.
      *
-     * @return TransactionManager object.
+     * @return  TransactionManager object.
      */
     TransactionManager getTransactionManager();
 
     /**
      * Call a stored procedure or a function
      *
-     * @param pojo Entity instance.
+     * @param   pojo 
+     *          Entity instance.
      */
-    void call(Object pojo);
+    boolean call(Object pojo);
 
     /**
      * Call a stored procedure or a function using the given connection.
      *
-     * @param connection Database connection object.
-     * @param pojo Entity instance.
+     * @param   connection 
+     *          Database connection object.
+     * @param   pojo
+     *          Entity instance.
      */
-    void call(Connection connection, Object pojo);
+    boolean call(Connection connection, Object pojo);
 }

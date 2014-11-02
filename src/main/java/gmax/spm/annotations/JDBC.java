@@ -47,7 +47,7 @@ public @interface JDBC {
     /**
      * URL connection.
      *
-     * @return URL connection.
+     * @return  URL connection.
      */
     String url();
 

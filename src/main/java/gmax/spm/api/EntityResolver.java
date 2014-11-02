@@ -38,6 +38,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class EntityResolver {
 
+    /** Annotation missing */
+    private static final String ERROR_NO_ANNOTATION = "%s annotation is missing.";
+    
     /**
      * Entities cache
      */
@@ -46,22 +49,23 @@ class EntityResolver {
     /**
      * Default constructor.
      */
-    public EntityResolver() {
+    EntityResolver() {
         this.registry = new ConcurrentHashMap<>();
     }
 
     /**
      * Get procedure name from @StoredProcedure annotation.
      *
-     * @param type pojo Class.
+     * @param   type 
+     *          pojo Class.
      *
-     * @return StoredProcedure annotation.
+     * @return  StoredProcedure annotation.
      */
     private StoredProcedure getProcedureName(Class<? extends Object> type) {
 
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
-            throw new ProcedureManagerException(
-                    "@StoredProcedure annotation is missing.");
+            String message = String.format(ERROR_NO_ANNOTATION, "@StoredProcedure");
+            throw new ProcedureManagerException(message);
         }
 
         return type.getAnnotation(StoredProcedure.class);
@@ -70,9 +74,10 @@ class EntityResolver {
     /**
      * Get a <code>List</code> of @StoredProcedureParameter annotated fields.
      *
-     * @param type pojo Class.
+     * @param   type 
+     *          pojo Class.
      *
-     * @return List of StoredProcedureParameter annotated fields
+     * @return  List of StoredProcedureParameter annotated fields
      */
     private List<Field> getProcedureParameters(Class<? extends Object> type) {
 
@@ -90,10 +95,12 @@ class EntityResolver {
     /**
      * Build a SQL-92 call statement for a stored procedure or function.
      *
-     * @param procedure StoredProcedure metadata.
-     * @param parametersCount Number of parameters.
+     * @param   procedure 
+     *          StoredProcedure metadata.
+     * @param   parametersCount 
+     *          Number of parameters.
      *
-     * @return Generated call statement as string.
+     * @return  Generated call statement as string.
      */
     private String callStatementString(StoredProcedure procedure,
             int parametersCount) {
@@ -116,11 +123,12 @@ class EntityResolver {
     /**
      * Extract entity properties. Entity properties are cached.
      *
-     * @param pojo POJO entity.
+     * @param   pojo
+     *          POJO entity.
      *
-     * @return Entity fields and SQL statement.
+     * @return  Entity fields and SQL statement.
      */
-    public Entity resolve(Object pojo) {
+    Entity resolve(Object pojo) {
 
         Class<? extends Object> type = pojo.getClass();
         Entity entity = registry.get(type);

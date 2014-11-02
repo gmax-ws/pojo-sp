@@ -37,7 +37,8 @@ public class ProcedureManagerException extends RuntimeException {
     /**
      * Constructor.
      *
-     * @param message Exception text message.
+     * @param   message 
+     *          Exception text message.
      */
     public ProcedureManagerException(String message) {
         super(message);
@@ -46,7 +47,8 @@ public class ProcedureManagerException extends RuntimeException {
     /**
      * Constructor.
      *
-     * @param throwable Throwable object.
+     * @param   throwable 
+     *          Throwable object.
      */
     public ProcedureManagerException(Throwable throwable) {
         super(throwable);

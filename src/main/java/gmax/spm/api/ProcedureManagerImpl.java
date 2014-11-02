@@ -22,6 +22,7 @@ package gmax.spm.api;
 
 import gmax.spm.annotations.StoredProcedureParameter;
 import gmax.spm.annotations.enums.TransactionOperation;
+import gmax.spm.api.EntityResolver.Entity;
 import gmax.spm.exception.ProcedureManagerException;
 
 import java.lang.reflect.Field;
@@ -38,8 +39,14 @@ import java.util.List;
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
+    /** No JDBC connection error message */
+    private static final String ERROR_NO_CONNECTION = "JDBC connection is missing.";
+    
+    /** Null stored procedure entity error message */
+    private static final String ERROR_NO_ENTITY = "Null stored procedure entity is not allowed.";
+
     /**
-     * Entity resolver
+     * Entity resolver instance.
      */
     private final EntityResolver resolver = new EntityResolver();
 
@@ -51,22 +58,23 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Default constructor.
      */
-    public ProcedureManagerImpl() {
+    ProcedureManagerImpl() {
     }
 
     /**
      * Construct a ProcedureManager instance using a JDBC Connection.
      *
-     * @param connection JDBC Connection object.
+     * @param   connection 
+     *          JDBC Connection object.
      */
-    public ProcedureManagerImpl(Connection connection) {
+    ProcedureManagerImpl(Connection connection) {
         this.connection = connection;
     }
 
     /**
      * Get connection.
      *
-     * @return JDBC Connection object.
+     * @return  JDBC Connection object.
      */
     @Override
     public Connection getConnection() {
@@ -91,7 +99,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Get TransactionManager API.
      *
-     * @return TransactionManager interface.
+     * @return  TransactionManager interface.
      */
     @Override
     public TransactionManager getTransactionManager() {
@@ -101,12 +109,15 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the input/output parameters before the call.
      *
-     * @param statement CallableStatement object.
-     * @param pojo Stored procedure entity.
-     * @param fields List of fields.
+     * @param   statement
+     *          CallableStatement object.
+     * @param   pojo
+     *          Stored procedure entity.
+     * @param   fields
+     *          List of fields.
      *
-     * @throws SQLException
-     * @throws IllegalAccessException
+     * @throws  SQLException
+     * @throws  IllegalAccessException
      */
     private void bindInputParameters(CallableStatement statement, Object pojo,
             List<Field> fields) throws SQLException, IllegalAccessException {
@@ -137,12 +148,15 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the output parameters after call.
      *
-     * @param statement CallableStatement object.
-     * @param pojo Stored procedure entity.
-     * @param fields List of fields.
+     * @param   statement
+     *          CallableStatement object.
+     * @param   pojo
+     *          Stored procedure entity.
+     * @param   fields
+     *          List of fields.
      *
-     * @throws IllegalAccessException
-     * @throws SQLException
+     * @throws  IllegalAccessException
+     * @throws  SQLException
      */
     private void bindOutputParameters(CallableStatement statement, Object pojo,
             List<Field> fields) throws IllegalAccessException, SQLException {
@@ -163,46 +177,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Call the function or stored procedure.
-     *
-     * @param pojo Entity object.
-     */
-    @Override
-    public void call(Connection connection, Object pojo) {
-        this.connection = connection;
-        call(pojo);
-    }
-
-    /**
-     * Call the function or stored procedure.
-     *
-     * @param pojo POJO entity.
-     */
-    @Override
-    public void call(Object pojo) {
-        if (pojo != null) {
-            // resolve entity
-            EntityResolver.Entity entity = resolver.resolve(pojo);
-
-            // call procedure
-            CallableStatement statement = null;
-            try {
-                statement = connection.prepareCall(entity.sql);
-                bindInputParameters(statement, pojo, entity.fields);
-                statement.execute();
-                bindOutputParameters(statement, pojo, entity.fields);
-            } catch (SQLException | IllegalAccessException e) {
-                throw new ProcedureManagerException(e);
-            } finally {
-                cleanUp(statement);
-            }
-        }
-    }
-
-    /**
      * Close statement.
      *
-     * @param statement CallableStatement object.
+     * @param   statement 
+     *          CallableStatement object.
      */
     private void cleanUp(CallableStatement statement) {
 
@@ -214,6 +192,78 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
             }
         }
     }
+
+    /**
+     * Call the function or stored procedure.
+     *
+     * @param   pojo
+     *          Entity object.
+     * 
+     * @return  <code>true</code> success.
+     *          <code>false</code> error.
+     */
+    @Override
+    public boolean call(Connection connection, Object pojo) {
+        this.connection = connection;
+        return call(pojo);
+    }
+
+    /**
+     * Call a function or stored procedure.
+     *
+     * @param   pojo
+     *          POJO entity.
+     * 
+     * @return  <code>true</code> success.
+     *          <code>false</code> error.
+     */
+    @Override
+    public boolean call(Object pojo) {
+        
+        // Null POJO entities are not allowed.
+        if (pojo == null) {
+            throw new ProcedureManagerException(ERROR_NO_ENTITY);
+        }
+
+        // check database connection.
+        if (connection == null) {
+            throw new ProcedureManagerException(ERROR_NO_CONNECTION);
+        }
+        
+        return execute(pojo);
+    }
+    
+    /**
+     * Execute JBBC statement.
+     * 
+     * @param   pojo
+     *          Stored procedure object.
+     * 
+     * @return  <code>true</code> success.
+     *          <code>false</code> error.
+     */
+    private boolean execute(Object pojo) {
+        
+        boolean result = false;
+        
+        // resolve entity
+        Entity entity = resolver.resolve(pojo);
+        
+        // call procedure
+        CallableStatement statement = null;
+        try {
+            statement = connection.prepareCall(entity.sql);
+            bindInputParameters(statement, pojo, entity.fields);
+            result = statement.execute();
+            bindOutputParameters(statement, pojo, entity.fields);
+        } catch (SQLException | IllegalAccessException e) {
+            throw new ProcedureManagerException(e);
+        } finally {
+            cleanUp(statement);
+        }
+        
+        return result;
+    }            
 
     /**
      * Start a new JDBC transaction.
@@ -248,13 +298,14 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Process transaction.
+     * Process JDBC transaction.
      *
-     * @param operation Transaction operation.
+     * @param   operation 
+     *          Transaction operation.
      */
     private void processTransaction(TransactionOperation operation) {
         if (connection == null) {
-            throw new ProcedureManagerException("JDBC connection is missing.");
+            throw new ProcedureManagerException(ERROR_NO_CONNECTION);
         }
         try {
             switch (operation) {

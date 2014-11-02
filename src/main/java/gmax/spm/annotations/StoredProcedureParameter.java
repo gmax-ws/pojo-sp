@@ -43,7 +43,7 @@ public @interface StoredProcedureParameter {
     /**
      * The stored procedure parameter index.
      *
-     * @return parameter index.
+     * @return  parameter index.
      */
     int index();
 
@@ -57,7 +57,7 @@ public @interface StoredProcedureParameter {
     /**
      * The stored procedure parameter direction attribute IN, OUT, INOUT.
      *
-     * @return Direction attribute of the stored procedure parameter.
+     * @return  Direction attribute of the stored procedure parameter.
      */
     Direction direction() default Direction.IN;
 }

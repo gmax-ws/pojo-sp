@@ -148,7 +148,7 @@ class EntityResolver {
     /**
      * Entity properties.
      */
-    class Entity {
+    static class Entity {
 
         /**
          * SQL statement

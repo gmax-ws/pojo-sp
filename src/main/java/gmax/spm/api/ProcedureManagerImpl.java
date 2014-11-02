@@ -90,6 +90,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         if (connection != null) {
             try {
                 connection.close();
+                connection = null;
             } catch (SQLException e) {
                 throw new ProcedureManagerException(e);
             }

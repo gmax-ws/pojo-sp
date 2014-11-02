@@ -22,6 +22,7 @@ package gmax.spm.api;
 
 import gmax.spm.annotations.JDBC;
 import gmax.spm.exception.ProcedureManagerException;
+import gmax.spm.i18n.Messages;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -90,7 +91,8 @@ public final class ProcedureManagerFactory {
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
 
         if (!jdbcClass.isAnnotationPresent(JDBC.class)) {
-            throw new ProcedureManagerException("@JDBC annotation is missing.");
+            String message = String.format(Messages.ERROR_NO_ANNOTATION, "@JDBC");
+            throw new ProcedureManagerException(message);
         }
 
         JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);

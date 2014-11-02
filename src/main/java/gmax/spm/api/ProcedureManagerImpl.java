@@ -24,6 +24,7 @@ import gmax.spm.annotations.StoredProcedureParameter;
 import gmax.spm.annotations.enums.TransactionOperation;
 import gmax.spm.api.EntityResolver.Entity;
 import gmax.spm.exception.ProcedureManagerException;
+import gmax.spm.i18n.Messages;
 
 import java.lang.reflect.Field;
 import java.sql.CallableStatement;
@@ -38,12 +39,6 @@ import java.util.List;
  * @version 3.1
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
-
-    /** No JDBC connection error message */
-    private static final String ERROR_NO_CONNECTION = "JDBC connection is missing.";
-    
-    /** Null stored procedure entity error message */
-    private static final String ERROR_NO_ENTITY = "Null stored procedure entity is not allowed.";
 
     /**
      * Entity resolver instance.
@@ -71,6 +66,16 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         this.connection = connection;
     }
 
+    /**
+     * Library version.
+     * 
+     * @return  see above. 
+     */
+    @Override
+    public String version() {
+        return Messages.VERSION;
+    }
+    
     /**
      * Get connection.
      *
@@ -226,12 +231,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         
         // Null POJO entities are not allowed.
         if (pojo == null) {
-            throw new ProcedureManagerException(ERROR_NO_ENTITY);
+            throw new ProcedureManagerException(Messages.ERROR_NO_ENTITY);
         }
 
         // check database connection.
         if (connection == null) {
-            throw new ProcedureManagerException(ERROR_NO_CONNECTION);
+            throw new ProcedureManagerException(Messages.ERROR_NO_CONNECTION);
         }
         
         return execute(pojo);
@@ -309,7 +314,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
      */
     private void processTransaction(TransactionOperation operation) {
         if (connection == null) {
-            throw new ProcedureManagerException(ERROR_NO_CONNECTION);
+            throw new ProcedureManagerException(Messages.ERROR_NO_CONNECTION);
         }
         try {
             switch (operation) {

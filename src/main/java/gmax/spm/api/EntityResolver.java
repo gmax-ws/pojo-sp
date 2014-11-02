@@ -23,6 +23,7 @@ package gmax.spm.api;
 import gmax.spm.annotations.StoredProcedure;
 import gmax.spm.annotations.StoredProcedureParameter;
 import gmax.spm.exception.ProcedureManagerException;
+import gmax.spm.i18n.Messages;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -38,9 +39,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class EntityResolver {
 
-    /** Annotation missing */
-    private static final String ERROR_NO_ANNOTATION = "%s annotation is missing.";
-    
     /**
      * Entities cache
      */
@@ -64,7 +62,7 @@ class EntityResolver {
     private StoredProcedure getProcedureName(Class<? extends Object> type) {
 
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
-            String message = String.format(ERROR_NO_ANNOTATION, "@StoredProcedure");
+            String message = String.format(Messages.ERROR_NO_ANNOTATION, "@StoredProcedure");
             throw new ProcedureManagerException(message);
         }
 

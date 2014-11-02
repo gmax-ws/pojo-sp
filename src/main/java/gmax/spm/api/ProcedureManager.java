@@ -31,10 +31,12 @@ import java.sql.Connection;
 public interface ProcedureManager {
 
     /**
-     * Library version
+     * Library version.
+     * 
+     * @return  see above. 
      */
-    static final String VERSION = "3.1";
-
+    String version();
+    
     /**
      * Close the procedure manager.
      */

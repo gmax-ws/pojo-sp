@@ -59,7 +59,7 @@ class EntityResolver {
      *
      * @return  StoredProcedure annotation.
      */
-    private StoredProcedure getProcedureName(Class<? extends Object> type) {
+    private StoredProcedure getProcedureName(Class<?> type) {
 
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
             String message = String.format(Messages.ERROR_NO_ANNOTATION, "@StoredProcedure");
@@ -77,7 +77,7 @@ class EntityResolver {
      *
      * @return  List of StoredProcedureParameter annotated fields
      */
-    private List<Field> getProcedureParameters(Class<? extends Object> type) {
+    private List<Field> getProcedureParameters(Class<?> type) {
 
         List<Field> fields = new LinkedList<>();
 
@@ -128,7 +128,7 @@ class EntityResolver {
      */
     Entity resolve(Object pojo) {
 
-        Class<? extends Object> type = pojo.getClass();
+        Class<?> type = pojo.getClass();
         Entity entity = registry.get(type);
 
         if (entity == null) {

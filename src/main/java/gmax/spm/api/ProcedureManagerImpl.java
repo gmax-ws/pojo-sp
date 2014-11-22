@@ -59,8 +59,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Construct a ProcedureManager instance using a JDBC Connection.
      *
-     * @param   connection 
-     *          JDBC Connection object.
+     * @param connection JDBC Connection object.
      */
     ProcedureManagerImpl(Connection connection) {
         this.connection = connection;
@@ -68,18 +67,18 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
     /**
      * Library version.
-     * 
-     * @return  see above. 
+     *
+     * @return see above.
      */
     @Override
     public String version() {
         return Messages.VERSION;
     }
-    
+
     /**
      * Get connection.
      *
-     * @return  JDBC Connection object.
+     * @return JDBC Connection object.
      */
     @Override
     public Connection getConnection() {
@@ -91,22 +90,21 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
      */
     @Override
     public void close() {
-
-        if (connection != null) {
-            try {
+        try {
+            if (connection != null) {
                 connection.close();
-            } catch (SQLException e) {
-                throw new ProcedureManagerException(e);
-            } finally {
-                connection = null;                
             }
+        } catch (SQLException e) {
+            throw new ProcedureManagerException(e);
+        } finally {
+            connection = null;
         }
     }
 
     /**
      * Get TransactionManager API.
      *
-     * @return  TransactionManager interface.
+     * @return TransactionManager interface.
      */
     @Override
     public TransactionManager getTransactionManager() {
@@ -116,15 +114,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the input/output parameters before the call.
      *
-     * @param   statement
-     *          CallableStatement object.
-     * @param   pojo
-     *          Stored procedure entity.
-     * @param   fields
-     *          List of fields.
+     * @param statement CallableStatement object.
+     * @param pojo Stored procedure entity.
+     * @param fields List of fields.
      *
-     * @throws  SQLException
-     * @throws  IllegalAccessException
+     * @throws SQLException
+     * @throws IllegalAccessException
      */
     private void bindInputParameters(CallableStatement statement, Object pojo,
             List<Field> fields) throws SQLException, IllegalAccessException {
@@ -155,15 +150,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the output parameters after call.
      *
-     * @param   statement
-     *          CallableStatement object.
-     * @param   pojo
-     *          Stored procedure entity.
-     * @param   fields
-     *          List of fields.
+     * @param statement CallableStatement object.
+     * @param pojo Stored procedure entity.
+     * @param fields List of fields.
      *
-     * @throws  IllegalAccessException
-     * @throws  SQLException
+     * @throws IllegalAccessException
+     * @throws SQLException
      */
     private void bindOutputParameters(CallableStatement statement, Object pojo,
             List<Field> fields) throws IllegalAccessException, SQLException {
@@ -186,8 +178,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Close statement.
      *
-     * @param   statement 
-     *          CallableStatement object.
+     * @param statement CallableStatement object.
      */
     private void cleanUp(CallableStatement statement) {
 
@@ -203,12 +194,11 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Call the function or stored procedure.
      *
-     * @param   pojo
-     *          Entity object.
-     * 
+     * @param pojo Entity object.
+     *
      * @return  <code>true</code> if the first result is a <code>ResultSet</code>
-     *          object; <code>false</code> if the first result is an update
-     *          count or there is no result
+     * object; <code>false</code> if the first result is an update count or
+     * there is no result
      */
     @Override
     public boolean call(Connection connection, Object pojo) {
@@ -219,16 +209,15 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Call a function or stored procedure.
      *
-     * @param   pojo
-     *          POJO entity.
-     * 
+     * @param pojo POJO entity.
+     *
      * @return  <code>true</code> if the first result is a <code>ResultSet</code>
-     *          object; <code>false</code> if the first result is an update
-     *          count or there is no result
+     * object; <code>false</code> if the first result is an update count or
+     * there is no result
      */
     @Override
     public boolean call(Object pojo) {
-        
+
         // Null POJO entities are not allowed.
         if (pojo == null) {
             throw new ProcedureManagerException(Messages.ERROR_NO_ENTITY);
@@ -238,26 +227,24 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         if (connection == null) {
             throw new ProcedureManagerException(Messages.ERROR_NO_CONNECTION);
         }
-        
+
         return execute(pojo);
     }
-    
+
     /**
      * Execute JBBC statement.
-     * 
-     * @param   pojo
-     *          Stored procedure object.
-     * 
-     * @return  <code>true</code> success.
-     *          <code>false</code> error.
+     *
+     * @param pojo Stored procedure object.
+     *
+     * @return  <code>true</code> success. <code>false</code> error.
      */
     private boolean execute(Object pojo) {
-        
+
         boolean result = false;
-        
+
         // resolve entity
         Entity entity = resolver.resolve(pojo);
-        
+
         // call procedure
         CallableStatement statement = null;
         try {
@@ -270,9 +257,9 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         } finally {
             cleanUp(statement);
         }
-        
+
         return result;
-    }            
+    }
 
     /**
      * Start a new JDBC transaction.
@@ -309,8 +296,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Process JDBC transaction.
      *
-     * @param   operation 
-     *          Transaction operation.
+     * @param operation Transaction operation.
      */
     private void processTransaction(TransactionOperation operation) {
         if (connection == null) {

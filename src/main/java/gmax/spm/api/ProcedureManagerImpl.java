@@ -176,22 +176,6 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     }
 
     /**
-     * Close statement.
-     *
-     * @param statement CallableStatement object.
-     */
-    private void cleanUp(CallableStatement statement) {
-
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                throw new ProcedureManagerException(e);
-            }
-        }
-    }
-
-    /**
      * Call the function or stored procedure.
      *
      * @param pojo Entity object.
@@ -246,16 +230,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         Entity entity = resolver.resolve(pojo);
 
         // call procedure
-        CallableStatement statement = null;
-        try {
-            statement = connection.prepareCall(entity.sql);
+        try (CallableStatement statement = connection.prepareCall(entity.sql)) {
             bindInputParameters(statement, pojo, entity.fields);
             result = statement.execute();
             bindOutputParameters(statement, pojo, entity.fields);
         } catch (SQLException | IllegalAccessException e) {
             throw new ProcedureManagerException(e);
-        } finally {
-            cleanUp(statement);
         }
 
         return result;

@@ -20,7 +20,7 @@ If you have to call stored procedures on your applications you have to use the s
 working with CallableStatement objects. But now you can use a more simple and efficient solution
 using an annotated POJO and a ProcedureManager instance. Designed from scratch the pojo-sp library
 offers the best object oriented (OOP) solution to call stored procedures from your applications
-by hiding the JDBC SQL programming artifacts. For each stored procedure or function
+by hiding the JDBC SQL programming artefacts. For each stored procedure or function
 call you have to create a POJO, a simple Java Bean class with annotations. The POJO class MUST be
 decorated with a @StoredProcedure annotation and you have to specify the name of the stored procedure
 or function that is mapped by your class.

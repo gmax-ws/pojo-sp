@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2014 Gmax
+ * Copyright (c) 2011-2016 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -36,7 +36,7 @@ import java.util.List;
  * ProcedureManager and TransactionManager API.
  *
  * @author Marius Gligor
- * @version 3.1
+ * @version 4.0
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
@@ -59,8 +59,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Construct a ProcedureManager instance using a JDBC Connection.
      *
-     * @param   connection 
-     *          JDBC Connection object.
+     * @param connection JDBC Connection object.
      */
     ProcedureManagerImpl(Connection connection) {
         this.connection = connection;
@@ -79,7 +78,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Get connection.
      *
-     * @return  JDBC Connection object.
+     * @return JDBC Connection object.
      */
     @Override
     public Connection getConnection() {
@@ -91,14 +90,14 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
      */
     @Override
     public void close() {
-        try {
-            if (connection != null) {
+        if (connection != null) {
+            try {
                 connection.close();
+            } catch (SQLException e) {
+                throw new ProcedureManagerException(e);
+            } finally {
+                connection = null;
             }
-        } catch (SQLException e) {
-            throw new ProcedureManagerException(e);
-        } finally {
-            connection = null;
         }
     }
 
@@ -115,18 +114,14 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the input/output parameters before the call.
      *
-     * @param   statement 
-     *          CallableStatement object.
-     * @param   pojo 
-     *          Stored procedure entity.
-     * @param   fields 
-     *          List of fields.
-     *
-     * @throws  SQLException
-     * @throws  IllegalAccessException
+     * @param statement CallableStatement object.
+     * @param pojo      Stored procedure entity.
+     * @param fields    List of fields.
+     * @throws SQLException
+     * @throws IllegalAccessException
      */
     private void bindInputParameters(CallableStatement statement, Object pojo,
-            List<Field> fields) throws SQLException, IllegalAccessException {
+                                     List<Field> fields) throws SQLException, IllegalAccessException {
 
         for (Field field : fields) {
             StoredProcedureParameter param = field
@@ -154,18 +149,14 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Register the output parameters after call.
      *
-     * @param   statement
-     *          CallableStatement object.
-     * @param   pojo
-     *          Stored procedure entity.
-     * @param   fields
-     *          List of fields.
-     *
-     * @throws  IllegalAccessException
-     * @throws  SQLException
+     * @param statement CallableStatement object.
+     * @param pojo      Stored procedure entity.
+     * @param fields    List of fields.
+     * @throws IllegalAccessException
+     * @throws SQLException
      */
     private void bindOutputParameters(CallableStatement statement, Object pojo,
-            List<Field> fields) throws IllegalAccessException, SQLException {
+                                      List<Field> fields) throws IllegalAccessException, SQLException {
 
         for (Field field : fields) {
             StoredProcedureParameter param = field
@@ -185,13 +176,10 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Call the function or stored procedure.
      *
-     * @param   connection
-     *          JDBC connection.
-     * @param   pojo 
-     *          Entity object.
-     *
-     * @return  <code>true</code> if the first result is a <code>ResultSet</code> object; 
-     *          <code>false</code> if the first result is an update count or no result
+     * @param connection JDBC connection.
+     * @param pojo       Entity object.
+     * @return <code>true</code> if the first result is a <code>ResultSet</code> object;
+     * <code>false</code> if the first result is an update count or no result
      */
     @Override
     public boolean call(Connection connection, Object pojo) {
@@ -202,11 +190,9 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Call a function or stored procedure.
      *
-     * @param   pojo 
-     *          POJO entity.
-     *
-     * @return  <code>true</code> if the first result is a <code>ResultSet</code> object; 
-     *          <code>false</code> if the first result is an update count or no result
+     * @param pojo POJO entity.
+     * @return <code>true</code> if the first result is a <code>ResultSet</code> object;
+     * <code>false</code> if the first result is an update count or no result
      */
     @Override
     public boolean call(Object pojo) {
@@ -227,14 +213,12 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Execute JBBC statement.
      *
-     * @param   pojo 
-     *          Stored procedure object.
-     *
-     * @return  <code>true</code> success. <code>false</code> error.
+     * @param pojo Stored procedure object.
+     * @return <code>true</code> success. <code>false</code> error.
      */
     private boolean execute(Object pojo) {
 
-        boolean result = false;
+        boolean result;
 
         // resolve entity
         Entity entity = resolver.resolve(pojo);
@@ -286,8 +270,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
     /**
      * Process JDBC transaction.
      *
-     * @param   operation 
-     *          Transaction operation.
+     * @param operation Transaction operation.
      */
     private void processTransaction(TransactionOperation operation) {
         if (connection == null) {

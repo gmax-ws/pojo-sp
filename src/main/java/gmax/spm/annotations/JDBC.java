@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager 
- * Copyright (c) 2011-2014 Gmax
+ * Copyright (c) 2011-2016 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -20,17 +20,13 @@
  */
 package gmax.spm.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * JDBC annotation. Contains JDBC connection parameters.
  *
  * @author Marius Gligor
- * @version 3.1
+ * @version 4.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

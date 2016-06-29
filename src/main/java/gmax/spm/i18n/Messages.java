@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2014 Gmax
+ * Copyright (c) 2011-2016 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -24,19 +24,19 @@ package gmax.spm.i18n;
  * Messages (en) 
  * 
  * @author Marius Gligor
- * @version 3.1
+ * @version 4.0
  */
 public interface Messages {
 
     /** Library version */
-    static final String VERSION = "3.1";
+    String VERSION = "4.0";
 
     /** Annotation missing */
-    static final String ERROR_NO_ANNOTATION = "%s annotation is missing.";
+    String ERROR_NO_ANNOTATION = "%s annotation is missing.";
     
     /** No JDBC connection error message */
-    static final String ERROR_NO_CONNECTION = "JDBC connection is missing.";
+    String ERROR_NO_CONNECTION = "JDBC connection is missing.";
     
     /** Null stored procedure entity error message */
-    static final String ERROR_NO_ENTITY = "Null stored procedure entity is not allowed.";    
+    String ERROR_NO_ENTITY = "Null stored procedure entity is not allowed.";
 }

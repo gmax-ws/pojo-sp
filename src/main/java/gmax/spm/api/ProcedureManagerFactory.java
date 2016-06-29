@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2014 Gmax
+ * Copyright (c) 2011-2016 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -33,7 +33,7 @@ import java.sql.SQLException;
  * Factory class to create ProcedureManager instances.
  *
  * @author Marius Gligor
- * @version 3.1
+ * @version 4.0
  */
 public final class ProcedureManagerFactory {
 
@@ -46,7 +46,7 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager.
      *
-     * @return  ProcedureManager instance.
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance() {
         return new ProcedureManagerImpl();
@@ -55,10 +55,8 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager.
      *
-     * @param   source 
-     *          DataSource object.
-     *
-     * @return  ProcedureManager instance.
+     * @param source DataSource object.
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(DataSource source) {
         try {
@@ -71,10 +69,8 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager from a JDBC connection.
      *
-     * @param   connection
-     *          JDBC connection.
-     *
-     * @return  ProcedureManager instance.
+     * @param connection JDBC connection.
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Connection connection) {
         return new ProcedureManagerImpl(connection);
@@ -83,21 +79,17 @@ public final class ProcedureManagerFactory {
     /**
      * Create a new instance of ProcedureManager from a @JDBC annotated class.
      *
-     * @param   jdbcClass
-     *          @JDBC annotated class.
-     *
-     * @return  ProcedureManager instance.
+     * @param jdbcClass @JDBC annotated class.
+     * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
 
         if (!jdbcClass.isAnnotationPresent(JDBC.class)) {
-            String message = String.format(Messages.ERROR_NO_ANNOTATION, "@JDBC");
-            throw new ProcedureManagerException(message);
+            throw new ProcedureManagerException(String.format(Messages.ERROR_NO_ANNOTATION, "@JDBC"));
         }
 
-        JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);
-
         try {
+            JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);
             Class.forName(jdbc.driver());
 
             Connection connection = DriverManager.getConnection(jdbc.url(),

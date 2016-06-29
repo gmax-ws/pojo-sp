@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2014 Gmax
+ * Copyright (c) 2011-2016 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -24,9 +24,9 @@ package gmax.spm.api;
  * TransactionManager API
  *
  * @author Marius Gligor
- * @version 3.1
+ * @version 4.0
  */
-public interface TransactionManager {
+interface TransactionManager {
 
     /**
      * Start transaction

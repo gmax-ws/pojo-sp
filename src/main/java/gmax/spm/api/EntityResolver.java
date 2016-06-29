@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2014 Gmax
+ * Copyright (c) 2011-2016 Gmax
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -26,21 +26,22 @@ import gmax.spm.exception.ProcedureManagerException;
 import gmax.spm.i18n.Messages;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Entity resolver.
  *
  * @author Marius Gligor
- * @version 3.1
+ * @version 4.0
  */
 class EntityResolver {
 
     /**
-     * Entities cache
+     * Entities registry (cache)
      */
     private final Map<Class<?>, Entity> registry;
 
@@ -54,16 +55,13 @@ class EntityResolver {
     /**
      * Get procedure name from @StoredProcedure annotation.
      *
-     * @param   type 
-     *          pojo Class.
-     *
-     * @return  StoredProcedure annotation.
+     * @param type POJO Class.
+     * @return StoredProcedure annotation.
      */
     private StoredProcedure getProcedureName(Class<?> type) {
 
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
-            String message = String.format(Messages.ERROR_NO_ANNOTATION, "@StoredProcedure");
-            throw new ProcedureManagerException(message);
+            throw new ProcedureManagerException(String.format(Messages.ERROR_NO_ANNOTATION, "@StoredProcedure"));
         }
 
         return type.getAnnotation(StoredProcedure.class);
@@ -72,36 +70,25 @@ class EntityResolver {
     /**
      * Get a <code>List</code> of @StoredProcedureParameter annotated fields.
      *
-     * @param   type 
-     *          pojo Class.
-     *
-     * @return  List of StoredProcedureParameter annotated fields
+     * @param type pojo Class.
+     * @return List of StoredProcedureParameter annotated fields
      */
     private List<Field> getProcedureParameters(Class<?> type) {
 
-        List<Field> fields = new LinkedList<>();
-
-        for (Field field : type.getDeclaredFields()) {
-            if (field.isAnnotationPresent(StoredProcedureParameter.class)) {
-                fields.add(field);
-            }
-        }
-
-        return fields;
+        return Arrays.stream(type.getDeclaredFields())
+                .filter(field -> field.isAnnotationPresent(StoredProcedureParameter.class))
+                .collect(Collectors.toList());
     }
 
     /**
      * Build a SQL-92 call statement for a stored procedure or function.
      *
-     * @param   procedure 
-     *          StoredProcedure metadata.
-     * @param   parametersCount 
-     *          Number of parameters.
-     *
-     * @return  Generated call statement as string.
+     * @param procedure       StoredProcedure metadata.
+     * @param parametersCount Number of parameters.
+     * @return Generated call statement as string.
      */
     private String callStatementString(StoredProcedure procedure,
-            int parametersCount) {
+                                       int parametersCount) {
 
         StringBuilder buffer = new StringBuilder("{");
 
@@ -119,12 +106,24 @@ class EntityResolver {
     }
 
     /**
+     * Create a new entity.
+     *
+     * @param type POJO instance class.
+     * @return A new entity instance.
+     */
+    private Entity createEntity(Class<?> type) {
+
+        Entity entity = new Entity();
+        entity.fields = getProcedureParameters(type);
+        entity.sql = callStatementString(getProcedureName(type), entity.fields.size());
+        return entity;
+    }
+
+    /**
      * Extract entity properties. Entity properties are cached.
      *
-     * @param   pojo
-     *          POJO entity.
-     *
-     * @return  Entity fields and SQL statement.
+     * @param pojo POJO entity.
+     * @return Entity fields and SQL statement.
      */
     Entity resolve(Object pojo) {
 
@@ -132,12 +131,9 @@ class EntityResolver {
         Entity entity = registry.get(type);
 
         if (entity == null) {
-            entity = new Entity();
+            // create and register a new entity
+            entity = createEntity(type);
             registry.put(type, entity);
-
-            entity.fields = getProcedureParameters(type);
-            entity.sql = callStatementString(getProcedureName(type),
-                    entity.fields.size());
         }
 
         return entity;

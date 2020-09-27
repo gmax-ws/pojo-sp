@@ -36,7 +36,7 @@ import java.util.List;
  * ProcedureManager and TransactionManager API.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
 
@@ -124,8 +124,8 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
                                      List<Field> fields) throws SQLException, IllegalAccessException {
 
         for (Field field : fields) {
-            StoredProcedureParameter param = field
-                    .getAnnotation(StoredProcedureParameter.class);
+            StoredProcedureParameter param =
+                    field.getAnnotation(StoredProcedureParameter.class);
 
             switch (param.direction()) {
                 case IN:
@@ -159,8 +159,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
                                       List<Field> fields) throws IllegalAccessException, SQLException {
 
         for (Field field : fields) {
-            StoredProcedureParameter param = field
-                    .getAnnotation(StoredProcedureParameter.class);
+            StoredProcedureParameter param = field.getAnnotation(StoredProcedureParameter.class);
             switch (param.direction()) {
                 case OUT:
                 case INOUT:
@@ -276,6 +275,7 @@ class ProcedureManagerImpl implements ProcedureManager, TransactionManager {
         if (connection == null) {
             throw new ProcedureManagerException(Messages.ERROR_NO_CONNECTION);
         }
+
         try {
             switch (operation) {
                 case START:

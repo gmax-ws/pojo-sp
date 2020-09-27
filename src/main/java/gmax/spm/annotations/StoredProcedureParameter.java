@@ -29,7 +29,7 @@ import java.sql.Types;
  * Stored Procedure parameters annotation.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

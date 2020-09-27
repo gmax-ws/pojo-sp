@@ -24,7 +24,7 @@ package gmax.spm.annotations.enums;
  * Stored procedure parameter direction attribute.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 public enum Direction {
 

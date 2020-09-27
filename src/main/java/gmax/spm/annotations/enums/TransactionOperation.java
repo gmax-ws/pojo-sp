@@ -24,7 +24,7 @@ package gmax.spm.annotations.enums;
  * Define transaction operations.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 public enum TransactionOperation {
 

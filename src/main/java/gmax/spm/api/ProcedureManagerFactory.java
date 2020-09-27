@@ -29,6 +29,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static gmax.spm.i18n.Messages.ERROR_NO_ANNOTATION;
+
 /**
  * Factory class to create ProcedureManager instances.
  *
@@ -85,7 +87,7 @@ public final class ProcedureManagerFactory {
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
 
         if (!jdbcClass.isAnnotationPresent(JDBC.class)) {
-            throw new ProcedureManagerException(String.format(Messages.ERROR_NO_ANNOTATION, "@JDBC"));
+            throw new ProcedureManagerException(String.format(ERROR_NO_ANNOTATION, "@JDBC"));
         }
 
         try {

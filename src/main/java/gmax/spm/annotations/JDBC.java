@@ -26,7 +26,7 @@ import java.lang.annotation.*;
  * JDBC annotation. Contains JDBC connection parameters.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

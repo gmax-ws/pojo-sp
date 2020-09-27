@@ -32,11 +32,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static gmax.spm.i18n.Messages.ERROR_NO_ANNOTATION;
+
 /**
  * Entity resolver.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 class EntityResolver {
 
@@ -61,7 +63,7 @@ class EntityResolver {
     private StoredProcedure getProcedureName(Class<?> type) {
 
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
-            throw new ProcedureManagerException(String.format(Messages.ERROR_NO_ANNOTATION, "@StoredProcedure"));
+            throw new ProcedureManagerException(String.format(ERROR_NO_ANNOTATION, "@StoredProcedure"));
         }
 
         return type.getAnnotation(StoredProcedure.class);

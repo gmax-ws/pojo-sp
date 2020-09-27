@@ -24,12 +24,12 @@ package gmax.spm.i18n;
  * Messages (en) 
  * 
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 public interface Messages {
 
     /** Library version */
-    String VERSION = "4.0";
+    String VERSION = "5.0";
 
     /** Annotation missing */
     String ERROR_NO_ANNOTATION = "%s annotation is missing.";

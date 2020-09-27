@@ -26,7 +26,7 @@ import java.sql.Connection;
  * ProcedureManager API.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 interface ProcedureManager {
 

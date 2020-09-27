@@ -26,7 +26,7 @@ import java.lang.annotation.*;
  * Stored procedure annotation.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 5.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

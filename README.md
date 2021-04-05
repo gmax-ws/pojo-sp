@@ -14,7 +14,7 @@ and business logic in the Java-based middle-tier."
 
 *Solution:*
 
->If you have to call stored procedures on your applications you have to use the standard JDBC API
+>If you have to call stored procedures in your applications you have to use the standard JDBC API
 working with CallableStatement objects. But now you can use a more simple and efficient solution
 using an annotated POJO and a ProcedureManager instance. Designed from scratch the pojo-sp library
 offers the best object oriented (OOP) solution to call stored procedures from your applications
@@ -68,12 +68,12 @@ public class Hello {
   }
 }
 ```
->The next step is to create a ProcedureManager instance, set the input parameters on your POJO
+>The next step is to create a ProcedureManager instance, set the input parameters in your POJO
 class and finally call the stored procedure. The ProcedureManager instance is created using
 the createInstance() method of ProcedureManagerFactory using a DataSource, a JDBC Connection
 object as parameter or a class decorated with @JDBC annotation.
 If you need to use transactions a TransactionManager interface is available to use. Also all "checked"
-exceptions are converted to "unchecked" exceptions and it's not mandatory to use a try catch block on your code.
+exceptions are converted to "unchecked" exceptions and it's not mandatory to use a try catch block in your code.
 
 Example:
 ```

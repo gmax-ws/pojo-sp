@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2016 Gmax
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,33 +18,25 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.api;
+package scalable.solutions.spm.api;
 
 /**
  * TransactionManager API
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 6.0
  */
-interface TransactionManager {
+public interface TransactionManager {
 
-    /**
-     * Start transaction
-     */
+    /* Start transaction */
     void begin();
 
-    /**
-     * Stop transaction
-     */
+    /* Stop transaction */
     void end();
 
-    /**
-     * Save changes
-     */
+    /* Save changes */
     void commit();
 
-    /**
-     * Undo changes
-     */
+    /* Undo changes */
     void rollback();
 }

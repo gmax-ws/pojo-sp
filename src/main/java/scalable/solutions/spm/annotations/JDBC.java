@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager 
- * Copyright (c) 2011-2016 Gmax
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,18 +18,46 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.annotations.enums;
+package scalable.solutions.spm.annotations;
+
+import java.lang.annotation.*;
 
 /**
- * Define transaction operations.
+ * JDBC annotation. Contains JDBC connection parameters.
  *
  * @author Marius Gligor
- * @version 5.0
+ * @version 6.0
  */
-public enum TransactionOperation {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(value = {ElementType.TYPE})
+public @interface JDBC {
 
-    START,
-    COMMIT,
-    ROLLBACK,
-    STOP
+    /**
+     * JDBC Driver.
+     *
+     * @return	JDBC driver class.
+     */
+    String driver();
+
+    /**
+     * URL connection.
+     *
+     * @return  URL connection.
+     */
+    String url();
+
+    /**
+     * User name.
+     *
+     * @return	username.
+     */
+    String username() default "";
+
+    /**
+     * Password.
+     *
+     * @return	password.
+     */
+    String password() default "";
 }

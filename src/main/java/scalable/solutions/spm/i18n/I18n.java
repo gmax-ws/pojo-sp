@@ -1,6 +1,6 @@
 /*
- * POJO Stored Procedure Entity Manager 
- * Copyright (c) 2011-2016 Gmax
+ * POJO Stored Procedure Entity Manager
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,33 +18,23 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.annotations;
+package scalable.solutions.spm.i18n;
 
-import java.lang.annotation.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
- * Stored procedure annotation.
+ * Messages (en)
  *
  * @author Marius Gligor
- * @version 5.0
+ * @version 6.0
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.TYPE})
-public @interface StoredProcedure {
+public class I18n {
 
-    /**
-     * Name of the stored procedure or function.
-     *
-     * @return  Procedure name.
-     */
-    String name();
+    private static final ResourceBundle messages =
+            ResourceBundle.getBundle("Messages", Locale.getDefault());
 
-    /**
-     * Procedure or Function attribute.
-     *
-     * @return  <code>true</code> - procedure (default) 
-     *          <code>false</code> - function.
-     */
-    boolean procedure() default true;
+    public static String get(String key, Object... params) {
+        return String.format(messages.getString(key), params);
+    }
 }

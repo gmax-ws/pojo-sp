@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2016 Gmax
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,12 +18,12 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.api;
+package scalable.solutions.spm.api;
 
-import gmax.spm.annotations.StoredProcedure;
-import gmax.spm.annotations.StoredProcedureParameter;
-import gmax.spm.exception.ProcedureManagerException;
-import gmax.spm.i18n.Messages;
+import scalable.solutions.spm.annotations.StoredProcedure;
+import scalable.solutions.spm.annotations.StoredProcedureParameter;
+import scalable.solutions.spm.exception.ProcedureManagerException;
+import scalable.solutions.spm.i18n.I18n;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -32,24 +32,18 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static gmax.spm.i18n.Messages.ERROR_NO_ANNOTATION;
-
 /**
  * Entity resolver.
  *
  * @author Marius Gligor
- * @version 5.0
+ * @version 6.0
  */
 class EntityResolver {
 
-    /**
-     * Entities registry (cache)
-     */
+    /* Entities registry (cache) */
     private final Map<Class<?>, Entity> registry;
 
-    /**
-     * Default constructor.
-     */
+    /* Default constructor. */
     EntityResolver() {
         this.registry = new ConcurrentHashMap<>();
     }
@@ -63,7 +57,7 @@ class EntityResolver {
     private StoredProcedure getProcedureName(Class<?> type) {
 
         if (!type.isAnnotationPresent(StoredProcedure.class)) {
-            throw new ProcedureManagerException(String.format(ERROR_NO_ANNOTATION, "@StoredProcedure"));
+            throw new ProcedureManagerException(I18n.get("error.no.annotation", "@StoredProcedure"));
         }
 
         return type.getAnnotation(StoredProcedure.class);
@@ -83,14 +77,13 @@ class EntityResolver {
     }
 
     /**
-     * Build a SQL-92 call statement for a stored procedure or function.
+     * Build an SQL-92 call statement for a stored procedure or function.
      *
      * @param procedure       StoredProcedure metadata.
      * @param parametersCount Number of parameters.
      * @return Generated call statement as string.
      */
-    private String callStatementString(StoredProcedure procedure,
-                                       int parametersCount) {
+    private String callStatementString(StoredProcedure procedure, int parametersCount) {
 
         StringBuilder buffer = new StringBuilder("{");
 
@@ -145,15 +138,10 @@ class EntityResolver {
      * Entity properties.
      */
     static class Entity {
-
-        /**
-         * SQL statement
-         */
+        /* SQL statement */
         String sql;
 
-        /**
-         * Entity fields
-         */
+        /* Entity fields */
         List<Field> fields;
     }
 }

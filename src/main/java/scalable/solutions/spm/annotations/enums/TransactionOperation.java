@@ -1,6 +1,6 @@
 /*
- * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2016 Gmax
+ * POJO Stored Procedure Entity Manager 
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,39 +18,18 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.exception;
+package scalable.solutions.spm.annotations.enums;
 
 /**
- * ProcedureManagerException wrap all "checked" exceptions to an "unchecked"
- * exception.
+ * Define transaction operations.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 6.0
  */
-public class ProcedureManagerException extends RuntimeException {
+public enum TransactionOperation {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 7746720446568325686L;
-
-    /**
-     * Constructor.
-     *
-     * @param   message 
-     *          Exception text message.
-     */
-    public ProcedureManagerException(String message) {
-        super(message);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   throwable 
-     *          Throwable object.
-     */
-    public ProcedureManagerException(Throwable throwable) {
-        super(throwable);
-    }
+    START,
+    COMMIT,
+    ROLLBACK,
+    STOP
 }

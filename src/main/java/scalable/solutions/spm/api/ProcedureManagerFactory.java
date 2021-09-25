@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager
- * Copyright (c) 2011-2016 Gmax
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,24 +18,22 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.api;
+package scalable.solutions.spm.api;
 
-import gmax.spm.annotations.JDBC;
-import gmax.spm.exception.ProcedureManagerException;
-import gmax.spm.i18n.Messages;
+import scalable.solutions.spm.annotations.JDBC;
+import scalable.solutions.spm.exception.ProcedureManagerException;
+import scalable.solutions.spm.i18n.I18n;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static gmax.spm.i18n.Messages.ERROR_NO_ANNOTATION;
-
 /**
  * Factory class to create ProcedureManager instances.
  *
  * @author Marius Gligor
- * @version 4.0
+ * @version 6.0
  */
 public final class ProcedureManagerFactory {
 
@@ -61,6 +59,7 @@ public final class ProcedureManagerFactory {
      * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(DataSource source) {
+
         try {
             return new ProcedureManagerImpl(source.getConnection());
         } catch (SQLException e) {
@@ -75,6 +74,7 @@ public final class ProcedureManagerFactory {
      * @return ProcedureManager instance.
      */
     public static ProcedureManager createInstance(Connection connection) {
+
         return new ProcedureManagerImpl(connection);
     }
 
@@ -86,20 +86,20 @@ public final class ProcedureManagerFactory {
      */
     public static ProcedureManager createInstance(Class<?> jdbcClass) {
 
-        if (!jdbcClass.isAnnotationPresent(JDBC.class)) {
-            throw new ProcedureManagerException(String.format(ERROR_NO_ANNOTATION, "@JDBC"));
-        }
+        if (jdbcClass.isAnnotationPresent(JDBC.class)) {
+            try {
+                JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);
+                Class.forName(jdbc.driver());
 
-        try {
-            JDBC jdbc = jdbcClass.getAnnotation(JDBC.class);
-            Class.forName(jdbc.driver());
+                Connection connection = DriverManager.getConnection(jdbc.url(),
+                        jdbc.username(), jdbc.password());
 
-            Connection connection = DriverManager.getConnection(jdbc.url(),
-                    jdbc.username(), jdbc.password());
-
-            return new ProcedureManagerImpl(connection);
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new ProcedureManagerException(e);
+                return new ProcedureManagerImpl(connection);
+            } catch (ClassNotFoundException | SQLException e) {
+                throw new ProcedureManagerException(e);
+            }
+        } else {
+            throw new ProcedureManagerException(I18n.get("error.no.annotation", "@JDBC"));
         }
     }
 }

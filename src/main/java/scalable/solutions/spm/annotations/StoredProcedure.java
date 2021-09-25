@@ -1,6 +1,6 @@
 /*
  * POJO Stored Procedure Entity Manager 
- * Copyright (c) 2011-2016 Gmax
+ * Copyright (c) 2011-2021 Scalable Solutions SRL
  *
  * Author: Marius Gligor <marius.gligor@gmail.com>
  *
@@ -18,42 +18,33 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place - Suite 330, Boston, MA 02111, USA.
  */
-package gmax.spm.annotations;
-
-import gmax.spm.annotations.enums.Direction;
+package scalable.solutions.spm.annotations;
 
 import java.lang.annotation.*;
-import java.sql.Types;
 
 /**
- * Stored Procedure parameters annotation.
+ * Stored procedure annotation.
  *
  * @author Marius Gligor
- * @version 5.0
+ * @version 6.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD})
-public @interface StoredProcedureParameter {
+@Target(value = {ElementType.TYPE})
+public @interface StoredProcedure {
 
     /**
-     * The stored procedure parameter index.
+     * Name of the stored procedure or function.
      *
-     * @return  parameter index.
+     * @return  Procedure name.
      */
-    int index();
+    String name();
 
     /**
-     * The stored procedure parameter SQL type.
+     * Procedure or Function attribute.
      *
-     * @return	SQL type mapping for this stored procedure parameter.
+     * @return  <code>true</code> - procedure (default) 
+     *          <code>false</code> - function.
      */
-    int type() default Types.VARCHAR;
-
-    /**
-     * The stored procedure parameter direction attribute IN, OUT, INOUT.
-     *
-     * @return  Direction attribute of the stored procedure parameter.
-     */
-    Direction direction() default Direction.IN;
+    boolean procedure() default true;
 }

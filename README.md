@@ -1,4 +1,6 @@
+[![License](https://img.shields.io/badge/license-GPL-blue)](http://www.gnu.org/licenses/gpl-2.0.html)
 ## Calling stored procedures using Java plain objects (POJO)
+Copyright (c) 2011-2021 Scalable Solutions SRL
 Author: Marius Gligor  
 Contact: marius.gligor@gmail.com  
 
@@ -6,7 +8,7 @@ Contact: marius.gligor@gmail.com
 
 >Today almost all Java applications having persistence layers are designed
 using the JPA (Java Persistence API) and/or one of the existing ORM frameworks
-like Hibernate, EclipseLink, etc. On the Hibernate Reference Manual preface we are advised
+like Hibernate, EclipseLink, etc. In Hibernate Reference Manual preface we are advised
 that Hibernate may not be the best solution when we have to work with stored procedures.
 "Hibernate may not be the best solution for data-centric applications that only use stored-procedures
 to implement the business logic in the database, it is most useful with object-oriented domain models
@@ -17,10 +19,10 @@ and business logic in the Java-based middle-tier."
 >If you have to call stored procedures in your applications you have to use the standard JDBC API
 working with CallableStatement objects. But now you can use a more simple and efficient solution
 using an annotated POJO and a ProcedureManager instance. Designed from scratch the pojo-sp library
-offers the best object oriented (OOP) solution to call stored procedures from your applications
+offers the best object-oriented (OOP) solution to call stored procedures from your applications
 by hiding the JDBC SQL programming artefacts. For each stored procedure or function
 call you have to create a POJO, a simple Java Bean class with annotations. The POJO class MUST be
-decorated with a @StoredProcedure annotation and you have to specify the name of the stored procedure
+decorated with a @StoredProcedure annotation, and you have to specify the name of the stored procedure
 or function that is mapped by your class.
 If the procedure or the function is from an Oracle package you have to specify 
 also the name of the package:
@@ -72,7 +74,7 @@ public class Hello {
 class and finally call the stored procedure. The ProcedureManager instance is created using
 the createInstance() method of ProcedureManagerFactory using a DataSource, a JDBC Connection
 object as parameter or a class decorated with @JDBC annotation.
-If you need to use transactions a TransactionManager interface is available to use. Also all "checked"
+If you need to use transactions a TransactionManager interface is available to use. Also, all "checked"
 exceptions are converted to "unchecked" exceptions and it's not mandatory to use a try catch block in your code.
 
 Example:
